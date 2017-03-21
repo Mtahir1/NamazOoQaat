@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
                     LocationListener locationListener = new MyLocationListener();
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
@@ -85,10 +84,6 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-                    fill();
-                    NamazTime namazTime = new NamazTime();
-                    String apiLink = "https://muslimsalat.com/"+cityName+".json?key=ed3d60643f756b0d26c2be4000ad0a84";
-                    namazTime.execute(apiLink);
                 }
                 else {
                     Toast.makeText(this,"Thanks for using the app. Namaz Ooqaat needs GPS. App is exiting now.",Toast.LENGTH_SHORT).show();
@@ -117,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
                 if (addresses.size() > 0) {
                     System.out.println(addresses.get(0).getLocality());
                     cityName = addresses.get(0).getLocality();
+                    fill();
+                    NamazTime namazTime = new NamazTime();
+                    String apiLink = "https://muslimsalat.com/"+cityName+".json?key=ed3d60643f756b0d26c2be4000ad0a84";
+                    namazTime.execute(apiLink);
                 }
             }
             catch (IOException e) {
@@ -201,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
             LocationListener locationListener = new MyLocationListener();
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -214,10 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-            fill();
-            NamazTime namazTime = new NamazTime();
-            String apiLink = "https://muslimsalat.com/"+cityName+".json?key=ed3d60643f756b0d26c2be4000ad0a84";
-            namazTime.execute(apiLink);
         }
     }
 }
