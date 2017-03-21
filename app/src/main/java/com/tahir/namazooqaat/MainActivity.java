@@ -33,18 +33,80 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     TextView islamicDate;
+    TextView fajr;
     TextView fajrTime;
     TextView shurooq;
     TextView shurooqTime;
+    TextView dhuhr;
     TextView dhuhrTime;
+    TextView asr;
     TextView asrTime;
+    TextView maghreb;
     TextView maghrebTime;
+    TextView isha;
     TextView ishaTime;
     TextView location;
+    String cityName;
 
-    String cityName="";
+    public void fill(){
+        islamicDate = (TextView) findViewById(R.id.islamicDate);
+        fajr = (TextView) findViewById(R.id.fajr);
+        fajrTime = (TextView) findViewById(R.id.fajrTime);
+        shurooq = (TextView) findViewById(R.id.shurooq);
+        shurooqTime = (TextView) findViewById(R.id.shurooqTime);
+        dhuhr = (TextView) findViewById(R.id.dhuhr);
+        dhuhrTime = (TextView) findViewById(R.id.dhuhrTime);
+        asr = (TextView) findViewById(R.id.asr);
+        asrTime = (TextView) findViewById(R.id.asrTime);
+        maghreb = (TextView) findViewById(R.id.maghreb);
+        maghrebTime = (TextView) findViewById(R.id.maghrebTime);
+        isha = (TextView) findViewById(R.id.isha);
+        ishaTime = (TextView) findViewById(R.id.ishaTime);
+        location = (TextView) findViewById(R.id.location);
+    }
+
+    // User GPS Permission
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+                    LocationListener locationListener = new MyLocationListener();
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+                    fill();
+                    NamazTime namazTime = new NamazTime();
+                    String apiLink = "https://muslimsalat.com/"+cityName+".json?key=ed3d60643f756b0d26c2be4000ad0a84";
+                    namazTime.execute(apiLink);
+                }
+                else {
+                    Toast.makeText(this,"Thanks for using the app. Namaz Ooqaat needs GPS. App is exiting now.",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                return;
+            }
+        }
+    }
+
+    // Check if permission is already granted
+    public boolean checkLocationPermission() {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+
     // Getting Current City
-
     private class MyLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location loc) {
@@ -56,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println(addresses.get(0).getLocality());
                     cityName = addresses.get(0).getLocality();
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
             location.setText(cityName);
@@ -101,6 +164,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            fajr.setText("Fajr");
+            shurooq.setText("Shurooq");
+            dhuhr.setText("Dhuhr");
+            asr.setText("Asr");
+            maghreb.setText("Maghreb");
+            isha.setText("Isha");
             try {
                 JSONObject jsonObject = new JSONObject(result);
                 String namazTime = jsonObject.getString("items");
@@ -108,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray arr = new JSONArray(namazTime);
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject jsonPart = arr.getJSONObject(i);
-
-                    Log.i("Data of Items is ", jsonPart.getString("date_for"));
                     islamicDate.setText(jsonPart.getString("date_for"));
                     fajrTime.setText(jsonPart.getString("fajr"));
                     shurooqTime.setText(jsonPart.getString("shurooq"));
@@ -118,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
                     maghrebTime.setText(jsonPart.getString("maghrib"));
                     ishaTime.setText(jsonPart.getString("isha"));
                 }
-            } catch (JSONException e) {
+            }
+            catch (JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -128,34 +196,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener locationListener = new MyLocationListener();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if(!checkLocationPermission()) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        else {
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        islamicDate = (TextView) findViewById(R.id.islamicDate);
-        fajrTime = (TextView) findViewById(R.id.fajrTime);
-        shurooq = (TextView) findViewById(R.id.shurooq);
-        shurooqTime = (TextView) findViewById(R.id.shurooqTime);
-        dhuhrTime = (TextView) findViewById(R.id.dhuhrTime);
-        asrTime = (TextView) findViewById(R.id.asrTime);
-        maghrebTime = (TextView) findViewById(R.id.maghrebTime);
-        ishaTime = (TextView) findViewById(R.id.ishaTime);
-        location = (TextView) findViewById(R.id.location);
-
-        NamazTime namazTime = new NamazTime();
-        String apiLink = "https://muslimsalat.com/"+cityName+".json?key=ed3d60643f756b0d26c2be4000ad0a84";
-        namazTime.execute(apiLink);
-
+            LocationListener locationListener = new MyLocationListener();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+            fill();
+            NamazTime namazTime = new NamazTime();
+            String apiLink = "https://muslimsalat.com/"+cityName+".json?key=ed3d60643f756b0d26c2be4000ad0a84";
+            namazTime.execute(apiLink);
+        }
     }
 }

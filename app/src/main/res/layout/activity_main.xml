@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="113dp"
-            android:text="0000-0-00"
             android:textColor="@color/colorPrimary"
             android:textSize="30sp" />
 
@@ -48,7 +47,6 @@
             android:layout_marginTop="60dp"
             android:layout_toLeftOf="@+id/islamicDate"
             android:layout_toStartOf="@+id/islamicDate"
-            android:text="Fajr"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
@@ -62,7 +60,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="41dp"
             android:layout_marginRight="61dp"
-            android:text="00:00 am"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -74,7 +71,6 @@
             android:layout_alignStart="@+id/fajr"
             android:layout_below="@+id/fajr"
             android:layout_marginTop="10dp"
-            android:text="Shurooq"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
@@ -88,7 +84,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="41dp"
             android:layout_marginRight="61dp"
-            android:text="00:00 am"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -100,7 +95,6 @@
             android:layout_alignStart="@+id/shurooq"
             android:layout_below="@+id/shurooq"
             android:layout_marginTop="10dp"
-            android:text="Dhuhr"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
@@ -114,7 +108,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="41dp"
             android:layout_marginRight="41dp"
-            android:text="00:00 am"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -126,7 +119,6 @@
             android:layout_alignStart="@+id/asr"
             android:layout_below="@+id/asr"
             android:layout_marginTop="10dp"
-            android:text="Maghreb"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
@@ -140,7 +132,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="41dp"
             android:layout_marginRight="41dp"
-            android:text="00:00 am"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -152,7 +143,6 @@
             android:layout_alignStart="@+id/dhuhr"
             android:layout_below="@+id/dhuhr"
             android:layout_marginTop="10dp"
-            android:text="Asr"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
@@ -166,7 +156,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="41dp"
             android:layout_marginRight="41dp"
-            android:text="00:00 am"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -180,7 +169,6 @@
             android:layout_alignStart="@+id/dhuhr"
             android:layout_below="@+id/maghreb"
             android:layout_marginTop="10dp"
-            android:text="Isha"
             android:textColor="@color/colorPrimary"
             android:textSize="24sp" />
 
@@ -194,7 +182,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="41dp"
             android:layout_marginRight="41dp"
-            android:text="00:00 am"
             android:textColor="@color/colorPrimary"
             android:textSize="22sp" />
 
@@ -207,7 +194,6 @@
             android:layout_below="@+id/isha"
             android:layout_marginLeft="65dp"
             android:layout_marginTop="15dp"
-            android:text="Locationnnnnn"
             android:textColor="@color/colorPrimary"
             android:textSize="30sp" />
 
