@@ -20,4 +20,4 @@ Android mobile application providing the prayer timings based on the location of
 
   1. Build menu
   2. Generate Signed APK...
-  3. Fill in the keystore information (you only need to do this once manually and then let Android Studio remember it)
+  3. Fill in the keystore information 
